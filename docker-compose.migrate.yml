@@ -1,0 +1,103 @@
+version: "3"
+services:
+  migrate:
+    build: .
+    command: "./monitor migrate"
+    depends_on:
+      - postgres
+    networks:
+      - monitor
+    environment:
+      MONITOR_DATABASE_HOST: postgres
+      MONITOR_DATABASE_NAME: monitor
+      MONITOR_DATABASE_USERNAME: monitor
+      MONITOR_DATABASE_PASSWORD: monitor
+      MONITOR_DATABASE_PORT: 5432
+      MONITOR_SMTP_USERNAME: "AKIASPX5Y4XF6TWOLHW3"
+      MONITOR_SMTP_PASSWORD: "BEr1rnITu3BpGLtACr3EP6BQcKnAKcFTiHYftoys/1QB"
+      MONITOR_SMTP_FROM: "monitor@drivendigital.us"
+      MONITOR_SMTP_HOST: "email-smtp.us-west-2.amazonaws.com"
+    volumes:
+      - ./migrations:/root/migrations
+  sync:
+    build: .
+    command: "./monitor installs sync /root/installs.csv"
+    depends_on:
+      - postgres
+    networks:
+      - monitor
+    environment:
+      MONITOR_DATABASE_HOST: postgres
+      MONITOR_DATABASE_NAME: monitor
+      MONITOR_DATABASE_USERNAME: monitor
+      MONITOR_DATABASE_PASSWORD: monitor
+      MONITOR_DATABASE_PORT: 5432
+      MONITOR_SMTP_USERNAME: "AKIASPX5Y4XF6TWOLHW3"
+      MONITOR_SMTP_PASSWORD: "BEr1rnITu3BpGLtACr3EP6BQcKnAKcFTiHYftoys/1QB"
+      MONITOR_SMTP_FROM: "monitor@drivendigital.us"
+      MONITOR_SMTP_HOST: "email-smtp.us-west-2.amazonaws.com"
+    volumes:
+      - ./data/installs.csv:/root/installs.csv
+  snapshot:
+    build: .
+    command: "./monitor jobs snapshot all"
+    depends_on:
+      - postgres
+    networks:
+      - monitor
+    environment:
+      MONITOR_DATABASE_HOST: postgres
+      MONITOR_DATABASE_NAME: monitor
+      MONITOR_DATABASE_USERNAME: monitor
+      MONITOR_DATABASE_PASSWORD: monitor
+      MONITOR_DATABASE_PORT: 5432
+      MONITOR_SMTP_USERNAME: "AKIASPX5Y4XF6TWOLHW3"
+      MONITOR_SMTP_PASSWORD: "BEr1rnITu3BpGLtACr3EP6BQcKnAKcFTiHYftoys/1QB"
+      MONITOR_SMTP_FROM: "monitor@drivendigital.us"
+      MONITOR_JOB_BROKER: "redis://redis:6379"
+      MONITOR_JOB_STORE: "redis://redis:6379"
+      MONITOR_SMTP_HOST: "email-smtp.us-west-2.amazonaws.com"
+      MONITOR_MESSAGE_QUEUE: "redis:6379"
+  upload:
+    build: .
+    command: "./monitor jobs upload all"
+    depends_on:
+      - postgres
+    networks:
+      - monitor
+    environment:
+      MONITOR_DATABASE_HOST: postgres
+      MONITOR_DATABASE_NAME: monitor
+      MONITOR_DATABASE_USERNAME: monitor
+      MONITOR_DATABASE_PASSWORD: monitor
+      MONITOR_DATABASE_PORT: 5432
+      MONITOR_SMTP_USERNAME: "AKIASPX5Y4XF6TWOLHW3"
+      MONITOR_SMTP_PASSWORD: "BEr1rnITu3BpGLtACr3EP6BQcKnAKcFTiHYftoys/1QB"
+      MONITOR_SMTP_FROM: "monitor@drivendigital.us"
+      MONITOR_JOB_BROKER: "redis://redis:6379"
+      MONITOR_JOB_STORE: "redis://redis:6379"
+      MONITOR_SMTP_HOST: "email-smtp.us-west-2.amazonaws.com"
+      MONITOR_MESSAGE_QUEUE: "redis:6379"
+  check:
+    build: .
+    command: "./monitor jobs check all"
+    depends_on:
+      - postgres
+    networks:
+      - monitor
+    environment:
+      MONITOR_DATABASE_HOST: postgres
+      MONITOR_DATABASE_NAME: monitor
+      MONITOR_DATABASE_USERNAME: monitor
+      MONITOR_DATABASE_PASSWORD: monitor
+      MONITOR_DATABASE_PORT: 5432
+      MONITOR_SMTP_USERNAME: "AKIASPX5Y4XF6TWOLHW3"
+      MONITOR_SMTP_PASSWORD: "BEr1rnITu3BpGLtACr3EP6BQcKnAKcFTiHYftoys/1QB"
+      MONITOR_SMTP_FROM: "monitor@drivendigital.us"
+      MONITOR_JOB_BROKER: "redis://redis:6379"
+      MONITOR_JOB_STORE: "redis://redis:6379"
+      MONITOR_SMTP_HOST: "email-smtp.us-west-2.amazonaws.com"
+      MONITOR_MESSAGE_QUEUE: "redis:6379"
+networks:
+  monitor:
+    driver: bridge

@@ -1,0 +1,11 @@
+version: "3"
+services:
+  build:
+    image: golang:alpine
+    environment:
+      - CGO_ENABLED=0
+    volumes:
+      - .:/src
+      - ./dist:/dist
+    command: "go build -o dist/monitor -ldflags='-s -w' cmd/monitor/main.go"
+    working_dir: /src

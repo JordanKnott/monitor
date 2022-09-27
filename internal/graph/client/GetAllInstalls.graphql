@@ -1,0 +1,9 @@
+query GetAllInstalls {
+  installs {
+    ID
+    nicename
+    username
+    hostname
+    port
+  }
+}

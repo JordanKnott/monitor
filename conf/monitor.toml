@@ -1,0 +1,13 @@
+[log]
+level = "trace"
+report_caller = true
+
+[database]
+port = "8865"
+
+[smtp]
+username = 'AKIASPX5Y4XF6TWOLHW3'
+password = 'BEr1rnITu3BpGLtACr3EP6BQcKnAKcFTiHYftoys/1QB'
+from = 'monitor@drivendigital.us'
+host = 'email-smtp.us-west-2.amazonaws.com'
+skip_verify = true

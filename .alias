@@ -1,0 +1,3 @@
+alias mcli="go run cmd/monitorcli/main.go"
+alias monitor="go run cmd/monitor/main.go"
+alias mage="scripts/mage"

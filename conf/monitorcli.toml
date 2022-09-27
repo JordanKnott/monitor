@@ -1,0 +1,3 @@
+[general]
+url = 'http://localhost:3333/graphql'
+token = '5814bffd-e128-42fb-98ab-64b963d877c0'

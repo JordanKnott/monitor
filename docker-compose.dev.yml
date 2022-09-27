@@ -1,0 +1,25 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12.3-alpine
+    environment:
+      POSTGRES_USER: monitor
+      POSTGRES_PASSWORD: monitor
+      POSTGRES_DB: monitor
+    volumes:
+      - monitor-postgres:/var/lib/postgresql/data
+    ports:
+      - 8865:5432
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+  redis:
+    image: redis:6.2
+    ports:
+      - 6379:6379
+
+volumes:
+  monitor-postgres:
+    external: false
